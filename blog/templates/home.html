@@ -1,7 +1,7 @@
 {%extends 'base.html'%}
 {%block contents%}
 <body>
-{%for post in posts.all%}
+{%for post in blogs%}
 <br>
 
       <div class="container">
@@ -16,6 +16,18 @@
             </div>
         </div>                
 {%endfor%}
+
+{%if blogs.has_previous%}
+<a href="?page=1">First</a>
+<a href="?page={{blogs.previous_page_number}}">Previous</a>
+{%endif%}
+<span>{{blogs.number}} </span>
+<span>of</span>
+<span>{{blogs.paginator.num_pages}}</span>
+{%if blogs.has_next%}
+<a href="?page={{blogs.next_page_number}}">Next</a>
+<a href="?page={{blogs.paginator.num_pages}}">Last</a>
+{%endif%}
 
 </body>
 {%endblock%}

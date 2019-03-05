@@ -1,10 +1,16 @@
 from django.shortcuts import render , get_object_or_404 ,redirect
 from django.utils import timezone
+from django.core.paginator import Paginator
 from .models import Post
+from .form import PostBlog
 # Create your views here.
 def home(request):
     posts=Post.objects
-    return render(request,'home.html',{'posts':posts})
+    post_list=Post.objects.all()
+    paginator=Paginator(post_list,3)
+    page=request.GET.get('page')
+    blogs=paginator.get_page(page)
+    return render(request,'home.html',{'posts':posts, 'blogs':blogs})
 
 def detail(request,id):
     post=get_object_or_404(Post,pk=id)
@@ -21,3 +27,16 @@ def create(request):
     post.save()
     return redirect('/detail/'+str(post.id))
 
+def blogpost(request):
+    if request.method=="POST":
+        form=PostBlog(request.POST)
+        if form.is_valid():
+            post=form.save(commit=False)
+            post.pub_date=timezone.now()
+            post.save()
+            return redirect('home')
+
+
+    else:
+        form=PostBlog()
+        return render(request,'new.html',{'form':form})    

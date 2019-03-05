@@ -28,6 +28,7 @@ urlpatterns = [
     path('detail/<int:id>',blog.views.detail,name='detail'),
     path('new/',blog.views.new,name='new'),
     path('create/',blog.views.create,name='create'),
+    path('newblog/',blog.views.blogpost,name='newblog'),
     #블로그 url
     path('portpolio/',portpolio.views.page,name='page'),
     #portpolio url
